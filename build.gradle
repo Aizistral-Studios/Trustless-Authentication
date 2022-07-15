@@ -1,0 +1,115 @@
+plugins {
+	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'maven-publish'
+	id "com.modrinth.minotaur" version "2.+"
+	id "com.matthewprenger.cursegradle" version "1.+"
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
+
+loom {
+	//accessWidenerPath = file("src/main/resources/nochatreports.accesswidener")
+}
+
+repositories {
+	// So far none...
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 17
+}
+
+java {
+	// withSourcesJar()
+}
+
+jar {
+	from("LICENSE") {
+		// NO-OP
+	}
+}
+
+curseforge {
+
+    project {
+		println("Pushing CurseGradle specifications for project ID: ${curse_id}")	
+	
+		// Specified as cmd argument
+        apiKey = findProperty('curseKey') ?: 'none'
+        
+		id = "${curse_id}"
+        releaseType = "${curse_release}"
+        changelogType = 'html'
+        changelog = file('docs/changelog.html')
+		mainArtifact(remapJar)
+		
+		addGameVersion '1.19.1'
+		addGameVersion 'Fabric'
+		addGameVersion 'Quilt'
+		addGameVersion 'Java 17'
+		
+		relations {
+			requiredLibrary 'fabric-api'
+		}
+		
+		afterEvaluate {
+			uploadTask.dependsOn(remapJar)
+		}
+		
+		//debug = true
+        //addArtifact(sourcesJar)
+        //addArtifact(apiJar)
+    }
+	
+	options {
+		forgeGradleIntegration = false
+	}
+}
+
+modrinth {
+    token = findProperty('modrinthKey') ?: 'none'
+    projectId = "no-chat-reports"
+    versionNumber = "Fabric-" + project.mod_version
+	versionName = "No Chat Reports Fabric-" + project.mod_version
+    versionType = "release"
+	changelog = rootProject.file("docs/changelog.html").text
+    uploadFile = remapJar
+    gameVersions = ["1.19.1-pre2"]
+	loaders = ['fabric', 'quilt']
+	
+	dependencies {
+		// The scope can be `required`, `optional`, or `incompatible`
+		required.project "fabric-api"
+    }
+	
+	//syncBodyFrom = rootProject.file("docs/README.md").text
+}
+
+afterEvaluate {
+	upload.dependsOn(remapJar)
+}
+
+task upload {
+	dependsOn('modrinth')
+	dependsOn('curseforge')
+}

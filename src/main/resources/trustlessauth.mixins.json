@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.aizistral.trustlessauth.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "verbose": true,
+  "mixins": [
+	"AccessorServerLoginPacketListener",
+	"MixinMinecraftSessionService",
+	"MixinClientboundHelloPacket",
+	"MixinServerboundKeyPacket"
+  ],
+  "client": [
+	"MixinProfileKeyPairManager"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
