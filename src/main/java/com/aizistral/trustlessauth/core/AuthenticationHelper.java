@@ -42,8 +42,7 @@ public class AuthenticationHelper {
 
 	@Environment(EnvType.CLIENT)
 	public static Optional<ProfilePublicKey.Data> getProfileKeyData() {
-		AccessKeyPairManager access = (AccessKeyPairManager) Minecraft.getInstance().getProfileKeyPairManager();
-		return access.getProfilePublicKeyData();
+		return Minecraft.getInstance().getProfileKeyPairManager().profilePublicKey().map(key -> key.data());
 	}
 
 	@Environment(EnvType.CLIENT)

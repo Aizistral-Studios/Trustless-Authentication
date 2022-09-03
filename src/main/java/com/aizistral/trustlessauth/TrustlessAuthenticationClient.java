@@ -30,6 +30,9 @@ public class TrustlessAuthenticationClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		TrustlessAuthentication.LOGGER.info("Client initialization...");
+		ClientPlayNetworking.registerGlobalReceiver(TrustlessAuthentication.CHANNEL,
+				(client, handler, buf, sender) -> {});
+
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
 			client.execute(ClientHandshakeManager::terminateIfActive);
 		});

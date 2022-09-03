@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import com.aizistral.trustlessauth.TrustlessAuthentication;
 import com.aizistral.trustlessauth.core.HandshakeData;
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
@@ -48,7 +49,7 @@ public final class ServerHandshakeManager extends AbstractHandshakeManager {
 		Preconditions.checkNotNull(profile);
 
 		if (this.verifiedProfile != null)
-			return Objects.equals(profile.getName(), this.verifiedProfile.getName()) &&
+			return Objects.equals(profile.getName(), this.verifiedProfile.getName()) ||
 					Objects.equals(profile.getId(), this.verifiedProfile.getId());
 		else
 			return false;
@@ -58,6 +59,7 @@ public final class ServerHandshakeManager extends AbstractHandshakeManager {
 		Preconditions.checkNotNull(profile);
 		var optional = MANAGERS.stream().filter(manager -> manager.isVerifiedProfile(profile)).findAny();
 		optional.ifPresent(ServerHandshakeManager::terminate);
+		TrustlessAuthentication.LOGGER.info("Found verified profile " + profile + " :" + optional.isPresent());
 		return optional.isPresent() ? optional.get().getVerifiedProfile() : Optional.empty();
 	}
 

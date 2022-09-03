@@ -24,28 +24,27 @@ public class HandshakeData {
 	public static final int HELLO_CONSTANT = 7361744;
 
 	private final long nonce;
-	private final Instant timestamp;
+	private final long timestamp;
 
 	private HandshakeData() {
 		this.nonce = THEY_SEE_ME_ROLLIN.nextLong();
-		this.timestamp = Instant.now();
+		this.timestamp = Instant.now().getEpochSecond();
 	}
 
 	private HandshakeData(FriendlyByteBuf buf) {
 		this.nonce = buf.readLong();
-		this.timestamp = Instant.ofEpochSecond(buf.readLong());
+		this.timestamp = buf.readLong();
 	}
 
 	public void write(FriendlyByteBuf buf) {
 		buf.writeInt(HELLO_CONSTANT);
 		buf.writeLong(this.nonce);
-		buf.writeLong(this.timestamp.getEpochSecond());
+		buf.writeLong(this.timestamp);
 	}
 
 	@Environment(EnvType.CLIENT)
 	public byte[] sign() {
-		AccessKeyPairManager access = (AccessKeyPairManager) Minecraft.getInstance().getProfileKeyPairManager();
-		return access.getSigner().sign(this.toBytes());
+		return Minecraft.getInstance().getProfileKeyPairManager().signer().sign(this.toBytes());
 	}
 
 	public boolean verifyAgainst(ProfilePublicKey key, byte[] signature) {
@@ -57,7 +56,7 @@ public class HandshakeData {
 
 		ByteBuffer byteBuffer = ByteBuffer.wrap(bs).order(ByteOrder.BIG_ENDIAN);
 		byteBuffer.putLong(this.nonce);
-		byteBuffer.putLong(this.timestamp.getEpochSecond());
+		byteBuffer.putLong(this.timestamp);
 
 		return bs;
 	}
@@ -91,7 +90,7 @@ public class HandshakeData {
 		if (this.getClass() != obj.getClass())
 			return false;
 		HandshakeData other = (HandshakeData) obj;
-		return this.nonce == other.nonce && Objects.equals(this.timestamp, other.timestamp);
+		return this.nonce == other.nonce && this.timestamp == other.timestamp;
 	}
 
 }

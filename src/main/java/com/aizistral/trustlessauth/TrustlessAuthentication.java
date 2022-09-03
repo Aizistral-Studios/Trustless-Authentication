@@ -15,7 +15,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ProfileKeyPairManager;
-import net.minecraft.client.multiplayer.chat.LoggedChat;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundChatPacket;
 import net.minecraft.network.protocol.login.ServerboundHelloPacket;
@@ -30,11 +29,12 @@ public class TrustlessAuthentication implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("KONNICHIWA ZA WARUDO!");
+		ServerPlayNetworking.registerGlobalReceiver(CHANNEL, (server, player, handler, buf, sender) -> {});
 
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			server.execute(() -> {
 				if(!ServerPlayNetworking.canSend(handler, CHANNEL)) {
-					handler.disconnect(Component.literal("You need to install Trustless Authentication to join this server!"));
+					//handler.disconnect(Component.literal("You need to install Trustless Authentication to join this server!"));
 				}
 			});
 		});

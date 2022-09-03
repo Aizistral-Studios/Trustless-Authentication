@@ -67,7 +67,7 @@ public class MixinServerboundKeyPacket {
 						() -> new AuthenticationException("Received invalid handshake data from client!"));
 
 				ProfilePublicKey key = ProfilePublicKey.createValidated(accessor.getServer().getServiceSignatureValidator(),
-						this.superSecretUUID, this.superSecretPublicKey);
+						this.superSecretUUID, this.superSecretPublicKey, ProfilePublicKey.EXPIRY_GRACE_PERIOD);
 
 				if (this.superSecretData.verifyAgainst(key, this.superSecretSignature)) {
 					GameProfile complete = new GameProfile(this.superSecretUUID, accessor.getGameProfile().getName());
