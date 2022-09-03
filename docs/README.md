@@ -101,6 +101,6 @@ This would be harder to counteract on Mojang's behalf than key-based authenticat
 
 ## Conclusion
 
-While this mod indeed serves as a crude proof of trustless authentication being possible, it is not an ideal solution. Intercompatibility between various mods and plugins that want to implement it would require an agreed-upon protocol of protocols that can be used during login process, and it is yet to be established. Fallback mechanisms are also desired, since Mojang can adjust behavior of their services at any time.
+While this mod indeed serves as a crude proof of trustless authentication being possible, it is not an ideal solution. Intercompatibility between various mods and plugins that want to implement it would require an agreed-upon protocol that can be used during login process, and it is yet to be established. Fallback mechanisms are also desired, since Mojang can adjust behavior of their services at any time.
 
 However, it does an important job of proving the point - reliable authentication without direct involvement of Mojang's services is possible, and will very likely remain possible in the future, even if particular mechanisms for achieving it will have to be adjusted. I hope that this will allow third-party servers to strenghten their independence from Mojang and unreasonable, overreaching restrictions on their behalf, putting fate of Minecraft multiplayer back into the hands of community where it rightfully belongs.
