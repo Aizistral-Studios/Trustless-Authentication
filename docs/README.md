@@ -20,7 +20,7 @@ Since 1.19, Minecraft have implemented cryptographically signed chat, the primar
 
 With those things in mind, we can employ this key system in a way that allows the server to obtain complete proof that the client has access to the account it claims to be logged in from, without requiring that client to expose any sensitive data. First, let's take a look at how client-server authentication is handled by default:
 
-[IMAGE]
+<img src="https://user-images.githubusercontent.com/47505981/188279257-a7a2501c-aeb4-478f-95ef-642a25e48982.png" height="550">
 
 Notice that this isn't a perfectly accurate representation of login process. It omits certain steps and details in favor of focusing on what matters for general understanding.
 
@@ -49,7 +49,7 @@ In our case, Handshake Data will include timestamp (exact absolute time on serve
 
 This alternative login sequence is represented by a following flowchart:
 
-[IMAGE]
+<img src="https://user-images.githubusercontent.com/47505981/188279352-b25cd15d-ce96-48ac-9c7f-f80939174f4c.png" height="450">
 
 Notice that now Mojang's authentication services have no direct involvement with login process.
 
@@ -103,4 +103,4 @@ This would be harder to counteract on Mojang's behalf than key-based authenticat
 
 While this mod indeed serves as a crude proof of trustless authentication being possible, it is not an ideal solution. Intercompatibility between various mods and plugins that want to implement it would require an agreed-upon protocol of protocols that can be used during login process, and it is yet to be established. Fallback mechanisms are also desired, since Mojang can adjust behavior of their services at any time.
 
-However, it does an important job of proving the point - reliable authentication without direct involvement of Mojang's services is possible, and will very likely remain possible in the future, even if particular mechanisms for achieving it will have to be adjusted. I hope that this will allow third-party servers to strenghten their independence from Mojang and unreasonable, overreaching restrictions on their behalf, putting fate of Minecraft multiplayer back into the hands of community, where it rightfully belongs.
+However, it does an important job of proving the point - reliable authentication without direct involvement of Mojang's services is possible, and will very likely remain possible in the future, even if particular mechanisms for achieving it will have to be adjusted. I hope that this will allow third-party servers to strenghten their independence from Mojang and unreasonable, overreaching restrictions on their behalf, putting fate of Minecraft multiplayer back into the hands of community where it rightfully belongs.
