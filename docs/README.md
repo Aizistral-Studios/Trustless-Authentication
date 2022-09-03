@@ -81,6 +81,10 @@ This holds true so far, but cryptographically signed chat was designed in a way 
 
 There is no indication yet that doing so breaks things, but it is not the most compatible way if we assume multiple mods want to do that.
 
+## Man-in-the-Middle attacks
+
+Current implementation is vulnerable to MitM attacks, and implementing defense against such is beyond the scope of this project. Such defense, however, is entirely possible and practical.
+
 ## Fallback mechanisms
 
 Current implementation has no fallback mechanisms. If key-based authentication stops being possible for some reason - there is no other alternative than using default authentication scheme. Such mechanisms are possible, however, at least in theory.
