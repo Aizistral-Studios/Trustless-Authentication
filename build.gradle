@@ -43,7 +43,7 @@ githubRelease {
     repo "Trustless-Authentication"
     tagName project.version
     targetCommitish "dungeon-master"
-    releaseName "Trustless Authentication " + project.version 
+    releaseName project.version 
     body new File('docs/CHANGELOG.md').getText('UTF-8')
     draft false
     prerelease false
