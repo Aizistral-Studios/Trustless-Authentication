@@ -83,7 +83,7 @@ There is no indication yet that doing so breaks things, but it is not the most c
 
 ## Man-in-the-Middle attacks
 
-Current implementation is vulnerable to MitM attacks, and implementing defense against such is beyond the scope of this project. Such defense, however, is entirely possible and practical.
+Current implementation is vulnerable to MitM attacks against client, and implementing defense against such is beyond the scope of this project. Such defense, however, is entirely possible and practical.
 
 ## Fallback mechanisms
 
