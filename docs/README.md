@@ -49,7 +49,7 @@ In our case, Handshake Data will include timestamp (exact absolute time on serve
 
 This alternative login sequence is represented by a following flowchart:
 
-<img src="https://user-images.githubusercontent.com/47505981/188279352-b25cd15d-ce96-48ac-9c7f-f80939174f4c.png" height="450">
+![image](https://user-images.githubusercontent.com/47505981/188279352-b25cd15d-ce96-48ac-9c7f-f80939174f4c.png)
 
 Notice that now Mojang's authentication services have no direct involvement with login process.
 
