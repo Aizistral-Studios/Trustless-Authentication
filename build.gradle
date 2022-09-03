@@ -3,6 +3,7 @@ plugins {
 	id 'maven-publish'
 	id "com.modrinth.minotaur" version "2.+"
 	id "com.matthewprenger.cursegradle" version "1.+"
+	id "com.github.breadmoirai.github-release" version "2.+"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -34,6 +35,26 @@ processResources {
 		expand "version": project.version
 	}
 }
+
+gradle.projectsEvaluated({
+githubRelease {
+    token findProperty('githubKey') ?: 0 
+    owner "Aizistral-Studios"
+    repo "Trustless-Authentication"
+    tagName project.version
+    targetCommitish "dungeon-master"
+    releaseName "Trustless Authentication " + project.version 
+    body new File('docs/CHANGELOG.md').getText('UTF-8')
+    draft false
+    prerelease false
+    releaseAssets(remapJar)
+
+    overwrite false 
+    dryRun false 
+    apiEndpoint "https://api.github.com" 
+    client
+}
+})
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 17
@@ -110,6 +131,7 @@ afterEvaluate {
 }
 
 task upload {
-	dependsOn('modrinth')
-	dependsOn('curseforge')
+	dependsOn('githubRelease')
+	//dependsOn('curseforge')
+	//dependsOn('curseforge')
 }
