@@ -94,7 +94,7 @@ Since there is a [known API endpoint](https://wiki.vg/Mojang_API#Change_Skin) fo
 3. Client informs the server that upload is complete;
 4. Server uses [another API endpoint](https://wiki.vg/Mojang_API#UUID_to_Profile_and_Skin.2FCape) to fetch user's skin, and confirm client indeed uploaded unique file provided by the server;
 5. Server informs the client that it can join;
-6. Client uploads old skin back, which it presumably cached before executin step 2;
+6. Client uploads old skin back, which it presumably cached before executing step 2;
 7. Client joins.
 
 This would be harder to counteract on Mojang's behalf than key-based authentication, so it can serve as a reliable fallback mechanism if key-based authentication is ever taken down.
