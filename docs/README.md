@@ -105,7 +105,7 @@ Since there is a [known API endpoint](https://wiki.vg/Mojang_API#Change_Skin) fo
 
 1. Before logging into any servers, client generates keypair that will serve analogous purpose to Mojang-signed keypair in default trustless authentication scheme;
 2. Client takes current skin file of the player, encodes public key from the pair onto unused part of it, and uploads the altered skin. Full keypair is cached locally to avoid the need to regenerate it and reupload the skin on every game startup;
-3. Upon join attempt, client fetches skin of the player, finds and decodes public key from the pair, and requests client to prove their identity by signing Handshake Data with private key;
+3. Upon join attempt, server fetches skin of the player, finds and decodes public key from the pair, and requests client to prove their identity by signing Handshake Data with private key;
 4. The rest of authentication process proceeds as per normal trustless authentication scheme.
 
 If caching is ever implemented, it will incur a delay before client can join servers after executing step 2. But once it's over - client can join servers without restrictions. Since keypair is cached locally, this delay will not occur upon following boot-ups of the game, at least on that device.
