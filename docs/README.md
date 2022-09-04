@@ -91,7 +91,7 @@ Current implementation has no fallback mechanisms. If key-based authentication s
 
 ### Skin-based authentication
 
-Since there is a [known API endpoint](https://wiki.vg/Mojang_API#Change_Skin) for uploading new skins, we can make use of it in the login process. It would look as following:
+Since there is a [known API endpoint](https://wiki.vg/Mojang_API#Change_Skin) for uploading new skins, we can make use of it in the login process. Most obvious approach looks as following:
 
 1. Server generates a unique 64x64 `.png` file that will be associated with this login attempt, and sends it to the client;
 2. Client uploads that `.png` as skin;
@@ -101,7 +101,16 @@ Since there is a [known API endpoint](https://wiki.vg/Mojang_API#Change_Skin) fo
 6. Client uploads old skin back, which it presumably cached before executing step 2;
 7. Client joins.
 
-This would be harder to counteract on Mojang's behalf than key-based authentication, so it can serve as a reliable fallback mechanism if key-based authentication is ever taken down.
+...however, it leaves a big attack vector for Mojang, as they can rate-limit skin uploads and/or implement caching that would prevent newly uploaded skin from being returned by API for a few minutes. We can use less obvious approach to alleviate such risk:
+
+1. Before logging into any servers, client generates keypair that will serve analogous purpose to Mojang-signed keypair in default trustless authentication scheme;
+2. Client takes current skin file of the player, encodes public key from the pair onto unused part of it, and uploads the altered skin. Full keypair is cached locally to avoid the need to regenerate it and reupload the skin on every game startup;
+3. Upon join attempt, client fetches skin of the player, finds and decodes public key from the pair, and requests client to prove their identity by signing Handshake Data with private key;
+4. The rest of authentication process proceeds as per normal trustless authentication scheme.
+
+If caching is ever implemented, it will incur a delay before client can join servers after executing step 2. But once it's over - client can join servers without restrictions. Since keypair is cached locally, this delay will not occur upon following boot-ups of the game, at least on that device.
+
+This would be much harder to counteract on Mojang's behalf than key-based authentication, so it can serve as a reliable fallback mechanism if key-based authentication is ever taken down.
 
 ## Conclusion
 
